@@ -364,6 +364,14 @@
             font-weight: 600;
         }
 
+        .news-confirm {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            display: none;
+        }
+
         @media(max-width: 768px) {
             nav { display: none; }
             #hero h1 { font-size: 2rem; }
@@ -401,7 +409,7 @@
         <p>Produtos selecionados, colhidos com carinho e entregues direto na sua casa. Qualidade que você confia, sabor que sua família merece.</p>
         <div class="hero-buttons">
             <a href="#pedido" class="btn btn-verde">📝 Montar meu Pedido</a>
-            <a href="https://wa.me/41984666101" target="_blank" class="btn btn-dourado">💬 Falar no WhatsApp</a>
+            <a href="https://wa.me/SEU_NUMERO_AQUI" target="_blank" class="btn btn-dourado">💬 Falar no WhatsApp</a>
         </div>
     </div>
 </section>
@@ -538,7 +546,9 @@
             <input type="tel" id="newsWhats" placeholder="Seu WhatsApp" required>
             <button type="submit" class="btn btn-dourado">Inscrever ✅</button>
         </form>
-        <p id="newsConfirm" style="margin-top: 20px; display: none;">Inscrição realizada! Obrigada 💚✨</p>
+        <div id="newsConfirm" class="news-confirm">
+            ✅ Inscrição realizada! Obrigada 💚✨ Avisaremos sempre que chegar produto fresco!
+        </div>
     </div>
 </section>
 
@@ -558,7 +568,7 @@
     <div class="container">
         <h3 style="color: var(--dourado); margin-bottom: 15px;">Divina Sementeira</h3>
         <p>📍 Curitiba - Paraná</p>
-        <p>💬 WhatsApp: (41) 98466-6101</p>
+        <p>💬 WhatsApp: (XX) XXXXX-XXXX</p>
         <p>📧 contato@divinasementeira.com.br</p>
         <br>
         <p style="opacity: 0.6; font-size: 0.9rem;">Hortifruti com carinho 💚 — Todos os direitos reservados © 2026</p>
@@ -567,10 +577,20 @@
 
 <!-- Botão Flutuante WhatsApp -->
 <div class="whats-float">
-    <a href="https://wa.me/41984666101" target="_blank">💬</a>
+    <a href="https://wa.me/SEU_NUMERO_AQUI" target="_blank">💬</a>
 </div>
 
 <script>
+// ================= CONFIGURAÇÕES =================
+const CONFIG = {
+    // COLE O LINK DO APPS SCRIPT AQUI:
+    planilhaUrl: 'https://script.google.com/macros/s/AKfycbyCcOBbO3eZuUbo6Yp4qNLrtOykuaBvvbew0Eh9i-vnBfInUDd9Ywz_rpwoFTZ5c_KErw/exec',
+    
+    // SEU NÚMERO COM CÓDIGO DO PAÍS, SEM + E SEM ESPAÇOS
+    seuNumero: '5541984666101' // Exemplo: '5541999999999'
+};
+// ==================================================
+
 // FORMULÁRIO DE PEDIDO → WHATSAPP
 document.getElementById('formPedido').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -579,7 +599,6 @@ document.getElementById('formPedido').addEventListener('submit', function(e) {
     const endereco = document.getElementById('endereco').value;
     const observacoes = document.getElementById('observacoes').value;
 
-    // Lista de produtos
     const produtos = [
         { nome: 'Tomate (kg)', valor: document.getElementById('prod-tomate').value },
         { nome: 'Cenoura (kg)', valor: document.getElementById('prod-cenoura').value },
@@ -591,7 +610,6 @@ document.getElementById('formPedido').addEventListener('submit', function(e) {
         { nome: 'Ovos (dúzia)', valor: document.getElementById('prod-ovos').value }
     ];
 
-    // Monta lista apenas com itens > 0
     let listaProdutos = '';
     produtos.forEach(p => {
         if(parseFloat(p.valor) > 0) {
@@ -604,7 +622,6 @@ document.getElementById('formPedido').addEventListener('submit', function(e) {
         return;
     }
 
-    // Mensagem formatada
     const mensagem = `🌱 *PEDIDO DIVINA SEMENTEIRA* 🌱\n\n` +
         `👤 Nome: ${nome}\n` +
         `📍 Entrega: ${endereco}\n\n` +
@@ -612,9 +629,7 @@ document.getElementById('formPedido').addEventListener('submit', function(e) {
         (observacoes ? `📝 Observações: ${observacoes}\n\n` : '\n') +
         `Aguardo confirmação! 💚`;
 
-    // SUBSTITUA ABAIXO PELO SEU NÚMERO COM CÓDIGO DO PAÍS, SEM + E SEM ESPAÇOS
-    const seuNumero = '5541984666101'; // Exemplo: 55 + DDD + número
-    const url = `https://wa.me/${seuNumero}?text=${encodeURIComponent(mensagem)}`;
+    const url = `https://wa.me/${CONFIG.seuNumero}?text=${encodeURIComponent(mensagem)}`;
 
     document.getElementById('confirmacao').style.display = 'block';
     setTimeout(() => {
@@ -623,17 +638,54 @@ document.getElementById('formPedido').addEventListener('submit', function(e) {
     }, 800);
 });
 
-// CADASTRO DE NOVIDADES
-document.getElementById('formNews').addEventListener('submit', function(e) {
+// CADASTRO DE NOVIDADES → PLANILHA + WHATSAPP
+document.getElementById('formNews').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const nome = document.getElementById('newsNome').value;
-    const whats = document.getElementById('newsWhats').value;
+
+    const nome = document.getElementById('newsNome').value.trim();
+    const whats = document.getElementById('newsWhats').value.trim();
+    const botao = this.querySelector('button[type="submit"]');
+    const textoOriginal = botao.innerHTML;
     
-    // Aqui você pode integrar com planilha/email depois
-    console.log('Cadastro:', nome, whats);
-    
-    document.getElementById('newsConfirm').style.display = 'block';
-    this.reset();
+    botao.innerHTML = 'Salvando... ⏳';
+    botao.disabled = true;
+
+    try {
+        // 1️⃣ Salva na Planilha Google
+        await fetch(CONFIG.planilhaUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                nome: nome,
+                whatsapp: whats
+            })
+        });
+
+        // 2️⃣ Prepara mensagem para o SEU WhatsApp
+        const mensagem = `🌱 *NOVO INSCRITO — DIVINA SEMENTEIRA* 🌱\n\n` +
+            `👤 Nome: ${nome}\n` +
+            `📱 WhatsApp: ${whats}\n\n` +
+            `Salvei na planilha! 💚`;
+
+        // 3️⃣ Abre seu WhatsApp
+        setTimeout(() => {
+            window.open(`https://wa.me/${CONFIG.seuNumero}?text=${encodeURIComponent(mensagem)}`, '_blank');
+        }, 500);
+
+        // 4️⃣ Mostra confirmação para o usuário
+        document.getElementById('newsConfirm').style.display = 'block';
+        this.reset();
+
+    } catch (erro) {
+        alert('Erro ao salvar. Tente novamente, por favor! 😊');
+        console.error(erro);
+    } finally {
+        botao.innerHTML = textoOriginal;
+        botao.disabled = false;
+    }
 });
 </script>
 
