@@ -1,1 +1,641 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divina Sementeira | Hortifruti com carinho</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --verde-escuro: #1E5631;
+            --verde-claro: #4A7C59;
+            --dourado: #F2C94C;
+            --creme: #FAF6ED;
+            --texto: #2C2C2C;
+            --sombra: 0 4px 20px rgba(30, 86, 49, 0.1);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--creme);
+            color: var(--texto);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--verde-escuro);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: white;
+            box-shadow: var(--sombra);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 55px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--verde-escuro);
+            line-height: 1.2;
+        }
+
+        .logo-sub {
+            font-size: 0.75rem;
+            color: var(--verde-claro);
+            font-weight: 400;
+        }
+
+        nav a {
+            color: var(--verde-escuro);
+            text-decoration: none;
+            margin: 0 12px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--dourado);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-dourado {
+            background-color: var(--dourado);
+            color: var(--texto);
+        }
+
+        .btn-dourado:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(242, 201, 76, 0.4);
+        }
+
+        .btn-verde {
+            background-color: var(--verde-escuro);
+            color: white;
+        }
+
+        .btn-verde:hover {
+            background-color: var(--verde-claro);
+            transform: translateY(-2px);
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        #hero {
+            padding-top: 160px;
+            padding-bottom: 100px;
+            background: linear-gradient(135deg, #FAF6ED 0%, #EFF4EA 100%);
+            text-align: center;
+        }
+
+        #hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        #hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 35px;
+            color: var(--verde-claro);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--dourado);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .produtos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .produto-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--sombra);
+            transition: transform 0.3s;
+        }
+
+        .produto-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .produto-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .produto-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .produto-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .como-funciona {
+            background: white;
+        }
+
+        .passos {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .passo {
+            text-align: center;
+            max-width: 250px;
+        }
+
+        .passo-numero {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--verde-escuro);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+
+        .form-section {
+            background: linear-gradient(135deg, #EFF4EA 0%, #FAF6ED 100%);
+        }
+
+        .form-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--sombra);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--verde-escuro);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #E5E5E5;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--verde-claro);
+        }
+
+        .produto-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .produto-item label {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .produto-item input[type="number"] {
+            width: 80px;
+        }
+
+        .news-section {
+            background: var(--verde-escuro);
+            color: white;
+            text-align: center;
+        }
+
+        .news-section h2 {
+            color: white;
+        }
+
+        .news-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .news-form input {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        footer {
+            background: #2C2C2C;
+            color: white;
+            padding: 50px 0 30px;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        .whats-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+        }
+
+        .whats-float a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #25D366;
+            color: white;
+            font-size: 30px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            transition: transform 0.3s;
+        }
+
+        .whats-float a:hover {
+            transform: scale(1.1);
+        }
+
+        .confirmacao {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #E8F5E9;
+            border-radius: 10px;
+            color: var(--verde-escuro);
+            font-weight: 600;
+        }
+
+        @media(max-width: 768px) {
+            nav { display: none; }
+            #hero h1 { font-size: 2rem; }
+            .form-wrapper { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Cabeçalho -->
+<header>
+    <div class="container nav-wrapper">
+        <div class="logo">
+            <div style="font-size: 2rem;">🌱</div>
+            <div>
+                <div class="logo-text">Divina Sementeira</div>
+                <div class="logo-sub">Hortifruti com carinho</div>
+            </div>
+        </div>
+        <nav>
+            <a href="#inicio">Início</a>
+            <a href="#produtos">Produtos</a>
+            <a href="#pedido">Fazer Pedido</a>
+            <a href="#sobre">Sobre Nós</a>
+            <a href="#contato">Contato</a>
+        </nav>
+        <a href="#pedido" class="btn btn-dourado">🛒 Fazer Pedido</a>
+    </div>
+</header>
+
+<!-- Seção Principal -->
+<section id="hero">
+    <div class="container">
+        <h1>Frutas, Verduras e Legumes<br>fresquinhos na sua porta 💚</h1>
+        <p>Produtos selecionados, colhidos com carinho e entregues direto na sua casa. Qualidade que você confia, sabor que sua família merece.</p>
+        <div class="hero-buttons">
+            <a href="#pedido" class="btn btn-verde">📝 Montar meu Pedido</a>
+            <a href="https://wa.me/SEUNUMERO" target="_blank" class="btn btn-dourado">💬 Falar no WhatsApp</a>
+        </div>
+    </div>
+</section>
+
+<!-- Produtos -->
+<section id="produtos">
+    <div class="container">
+        <h2 class="section-title">Nossos Produtos</h2>
+        <div class="produtos-grid">
+            <div class="produto-card">
+                <div class="produto-icon">🍎</div>
+                <h3>Frutas Frescas</h3>
+                <p>Maçã, banana, manga, uva, mamão e muito mais — sempre da estação!</p>
+            </div>
+            <div class="produto-card">
+                <div class="produto-icon">🥬</div>
+                <h3>Verduras</h3>
+                <p>Alface, couve, espinafre, brócolis — verdinhas e recém-colhidas.</p>
+            </div>
+            <div class="produto-card">
+                <div class="produto-icon">🥕</div>
+                <h3>Legumes & Raízes</h3>
+                <p>Cenoura, batata, abobrinha, beterraba — essenciais para o dia a dia.</p>
+            </div>
+            <div class="produto-card">
+                <div class="produto-icon">📦</div>
+                <h3>Kits Prontos</h3>
+                <p>Caixinhas montadas para a semana — práticas e com preço especial!</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Como Funciona -->
+<section class="como-funciona">
+    <div class="container">
+        <h2 class="section-title">Como Funciona</h2>
+        <div class="passos">
+            <div class="passo">
+                <div class="passo-numero">1</div>
+                <h3>Escolha</h3>
+                <p>Marque os produtos e quantidades que deseja receber</p>
+            </div>
+            <div class="passo">
+                <div class="passo-numero">2</div>
+                <h3>Confirme</h3>
+                <p>Seu pedido vai direto ao nosso WhatsApp</p>
+            </div>
+            <div class="passo">
+                <div class="passo-numero">3</div>
+                <h3>Receba</h3>
+                <p>Nós preparamos tudo com carinho e levamos até você</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Formulário de Pedido -->
+<section id="pedido" class="form-section">
+    <div class="container">
+        <h2 class="section-title">Montar seu Pedido 💚</h2>
+        <div class="form-wrapper">
+            <form id="formPedido">
+                <div class="form-group">
+                    <label for="nome">Seu Nome *</label>
+                    <input type="text" id="nome" required placeholder="Digite seu nome completo">
+                </div>
+
+                <div class="form-group">
+                    <label for="endereco">Endereço de Entrega *</label>
+                    <input type="text" id="endereco" required placeholder="Rua, número, bairro, referência">
+                </div>
+
+                <div class="form-group">
+                    <label>Selecione os Produtos e Quantidades:</label>
+                    
+                    <div class="produto-item">
+                        <label>🍅 Tomate (kg)</label>
+                        <input type="number" min="0" step="0.5" value="0" id="prod-tomate">
+                    </div>
+                    <div class="produto-item">
+                        <label>🥕 Cenoura (kg)</label>
+                        <input type="number" min="0" step="0.5" value="0" id="prod-cenoura">
+                    </div>
+                    <div class="produto-item">
+                        <label>🥬 Alface (unidade)</label>
+                        <input type="number" min="0" value="0" id="prod-alface">
+                    </div>
+                    <div class="produto-item">
+                        <label>🍌 Banana (kg)</label>
+                        <input type="number" min="0" step="0.5" value="0" id="prod-banana">
+                    </div>
+                    <div class="produto-item">
+                        <label>🍎 Maçã (kg)</label>
+                        <input type="number" min="0" step="0.5" value="0" id="prod-maca">
+                    </div>
+                    <div class="produto-item">
+                        <label>🥔 Batata (kg)</label>
+                        <input type="number" min="0" step="0.5" value="0" id="prod-batata">
+                    </div>
+                    <div class="produto-item">
+                        <label>🧅 Cebola (kg)</label>
+                        <input type="number" min="0" step="0.5" value="0" id="prod-cebola">
+                    </div>
+                    <div class="produto-item">
+                        <label>🥚 Ovos (dúzia)</label>
+                        <input type="number" min="0" value="0" id="prod-ovos">
+                    </div>
+                    <p style="margin: 15px 0 10px; color: var(--verde-claro); font-size: 0.9rem;">Adicione mais produtos conforme precisar!</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="observacoes">Observações / Outros Produtos</label>
+                    <textarea id="observacoes" rows="4" placeholder="Escreva aqui produtos que não estão na lista, preferências de entrega, etc."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-verde" style="width: 100%; font-size: 1.1rem; padding: 15px;">✅ Enviar Pedido para o WhatsApp</button>
+                
+                <div id="confirmacao" class="confirmacao">
+                    Pedido montado! Abrindo o WhatsApp... 📱
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Novidades -->
+<section class="news-section">
+    <div class="container">
+        <h2>Quer receber nossa lista semanal e promoções? 💛</h2>
+        <p style="margin-bottom: 25px; font-size: 1.1rem;">Cadastre-se e seja avisado sempre que chegar produto fresco!</p>
+        <form id="formNews" class="news-form">
+            <input type="text" id="newsNome" placeholder="Seu nome" required>
+            <input type="tel" id="newsWhats" placeholder="Seu WhatsApp" required>
+            <button type="submit" class="btn btn-dourado">Inscrever ✅</button>
+        </form>
+        <p id="newsConfirm" style="margin-top: 20px; display: none;">Inscrição realizada! Obrigada 💚✨</p>
+    </div>
+</section>
+
+<!-- Sobre -->
+<section id="sobre">
+    <div class="container">
+        <h2 class="section-title">Sobre a Divina Sementeira</h2>
+        <p style="max-width: 800px; margin: 0 auto; text-align: center; font-size: 1.1rem;">
+            Somos uma família que acredita no poder da alimentação verdadeira. Trabalhamos com produtores locais, valorizando quem planta com amor e respeito à terra. Cada fruta, cada verdura é escolhida pensando na saúde e no bem-estar da sua casa. <br><br>
+            <strong>Divina Sementeira — Hortifruti com carinho 💚</strong>
+        </p>
+    </div>
+</section>
+
+<!-- Rodapé -->
+<footer id="contato">
+    <div class="container">
+        <h3 style="color: var(--dourado); margin-bottom: 15px;">Divina Sementeira</h3>
+        <p>📍 Curitiba - Paraná</p>
+        <p>💬 WhatsApp: (XX) XXXXX-XXXX</p>
+        <p>📧 contato@divinasementeira.com.br</p>
+        <br>
+        <p style="opacity: 0.6; font-size: 0.9rem;">Hortifruti com carinho 💚 — Todos os direitos reservados © 2026</p>
+    </div>
+</footer>
+
+<!-- Botão Flutuante WhatsApp -->
+<div class="whats-float">
+    <a href="https://wa.me/SEUNUMERO" target="_blank">💬</a>
+</div>
+
+<script>
+// FORMULÁRIO DE PEDIDO → WHATSAPP
+document.getElementById('formPedido').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const nome = document.getElementById('nome').value;
+    const endereco = document.getElementById('endereco').value;
+    const observacoes = document.getElementById('observacoes').value;
+
+    // Lista de produtos
+    const produtos = [
+        { nome: 'Tomate (kg)', valor: document.getElementById('prod-tomate').value },
+        { nome: 'Cenoura (kg)', valor: document.getElementById('prod-cenoura').value },
+        { nome: 'Alface (un)', valor: document.getElementById('prod-alface').value },
+        { nome: 'Banana (kg)', valor: document.getElementById('prod-banana').value },
+        { nome: 'Maçã (kg)', valor: document.getElementById('prod-maca').value },
+        { nome: 'Batata (kg)', valor: document.getElementById('prod-batata').value },
+        { nome: 'Cebola (kg)', valor: document.getElementById('prod-cebola').value },
+        { nome: 'Ovos (dúzia)', valor: document.getElementById('prod-ovos').value }
+    ];
+
+    // Monta lista apenas com itens > 0
+    let listaProdutos = '';
+    produtos.forEach(p => {
+        if(parseFloat(p.valor) > 0) {
+            listaProdutos += `✅ ${p.nome}: ${p.valor}\n`;
+        }
+    });
+
+    if(!listaProdutos) {
+        alert('Por favor, selecione pelo menos um produto! 🥬');
+        return;
+    }
+
+    // Mensagem formatada
+    const mensagem = `🌱 *PEDIDO DIVINA SEMENTEIRA* 🌱\n\n` +
+        `👤 Nome: ${nome}\n` +
+        `📍 Entrega: ${endereco}\n\n` +
+        `🛒 Itens do Pedido:\n${listaProdutos}\n` +
+        (observacoes ? `📝 Observações: ${observacoes}\n\n` : '\n') +
+        `Aguardo confirmação! 💚`;
+
+    // SUBSTITUA ABAIXO PELO SEU NÚMERO COM CÓDIGO DO PAÍS, SEM + E SEM ESPAÇOS
+    const seuNumero = '5541984666101'; // Exemplo: 55 + DDD + número
+    const url = `https://wa.me/${seuNumero}?text=${encodeURIComponent(mensagem)}`;
+
+    document.getElementById('confirmacao').style.display = 'block';
+    setTimeout(() => {
+        window.open(url, '_blank');
+        document.getElementById('confirmacao').style.display = 'none';
+    }, 800);
+});
+
+// CADASTRO DE NOVIDADES
+document.getElementById('formNews').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nome = document.getElementById('newsNome').value;
+    const whats = document.getElementById('newsWhats').value;
+    
+    // Aqui você pode integrar com planilha/email depois
+    console.log('Cadastro:', nome, whats);
+    
+    document.getElementById('newsConfirm').style.display = 'block';
+    this.reset();
+});
+</script>
+
+</body>
+</html>
